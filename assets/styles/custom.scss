@@ -1,0 +1,17 @@
+/* styles personnalisés */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+}
+
+.navbar-custom {
+    background-color: #3f51b5; /* Personnalisation de la couleur de fond de la navbar */
+}
+
+.nav-link-custom {
+    color: #ffffff; /* Personnalisation de la couleur du texte des liens */
+}
+
+.nav-link-custom:hover {
+    color: #ff9800; /* Changement de couleur du texte au survol */
+}
