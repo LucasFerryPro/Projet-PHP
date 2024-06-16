@@ -2,6 +2,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Welcome to the User Page</h1>
-    <p>This is the content of the user page.</p>
+    {% if app.user %}
+        <p>Email : {{ app.user.email }}</p>
+        <p>Rôles : {{ app.user.roles }}</p>
+    {% else %}
+        <p>Connectez-vous pour voir vos informations.</p>
+    {% endif %}
 {% endblock %}
