@@ -9,17 +9,27 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+
 class EventType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $actualDate = new \DateTime('now');
         $builder
             ->add('title')
             ->add('description')
             ->add('date', DateTimeType::class, [
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
-                //'input' => 'datetime',
+                'constraints' => [
+                    new GreaterThan([
+                        'value' => $actualDate,
+                        'message' => 'The date must be in the future.',
+                    ]),
+                ],
             ])
             ->add('numberParticipants')
             ->add('public')
