@@ -6,9 +6,9 @@ use App\Entity\Event;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 class EventType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -16,20 +16,22 @@ class EventType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('date', null, [
-                'widget' => 'single_text',
+            ->add('date', DateTimeType::class, [
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+                //'input' => 'datetime',
             ])
             ->add('numberParticipants')
-            ->add('isPublic')
-            ->add('creator', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
-            ->add('participants', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
+            ->add('public')
+//            ->add('creator', EntityType::class, [
+//                'class' => User::class,
+//                'choice_label' => 'id',
+//            ])
+//            ->add('participants', EntityType::class, [
+//                'class' => User::class,
+//                'choice_label' => 'id',
+//                'multiple' => true,
+//            ])
         ;
     }
 
