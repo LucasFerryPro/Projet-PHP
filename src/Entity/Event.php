@@ -29,7 +29,7 @@ class Event
     private ?int $numberParticipants = null;
 
     #[ORM\Column]
-    private ?bool $isPublic = null;
+    private ?bool $public = null;
 
     #[ORM\ManyToOne(inversedBy: 'createdEvents')]
     #[ORM\JoinColumn(nullable: false)]
@@ -101,12 +101,12 @@ class Event
 
     public function isPublic(): ?bool
     {
-        return $this->isPublic;
+        return $this->public;
     }
 
     public function setPublic(bool $isPublic): static
     {
-        $this->isPublic = $isPublic;
+        $this->public = $isPublic;
 
         return $this;
     }
