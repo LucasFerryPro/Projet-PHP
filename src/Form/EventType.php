@@ -7,11 +7,14 @@ use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class EventType extends AbstractType
 {
@@ -19,8 +22,21 @@ class EventType extends AbstractType
     {
         $actualDate = new \DateTime('now');
         $builder
-            ->add('title')
-            ->add('description')
+            ->add('title', null, [
+                'label' => 'Event title',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a title for the event',
+                    ])
+                ]
+            ])
+            ->add('description', TextareaType::class, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a description for the event',
+                    ])
+                ]
+            ])
             ->add('date', DateTimeType::class, [
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
@@ -31,7 +47,15 @@ class EventType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('numberParticipants')
+            ->add('numberParticipants', IntegerType::class, [
+                'constraints' => [
+                    new GreaterThanOrEqual([
+                        'value' => 2,
+                        'message' => 'The number of participants must be at least 2.',
+                    ]),
+                ],
+            ]
+            )
             ->add('public')
 //            ->add('creator', EntityType::class, [
 //                'class' => User::class,
