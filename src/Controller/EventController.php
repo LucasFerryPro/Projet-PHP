@@ -29,6 +29,15 @@ class EventController extends AbstractController
         ]);
     }
 
+    #[Route('/inscriptions', name: 'app_event_inscriptions', methods: ['GET'])]
+    public function getEventsByUser(EventRepository $eventRepository): Response
+    {
+        $events = $eventRepository->findEventsByUserParticipating($this->getUser());
+        return $this->render('event/inscriptions.html.twig', [
+            'events' => $events,
+        ]);
+    }
+
     #[Route('/new', name: 'app_event_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
