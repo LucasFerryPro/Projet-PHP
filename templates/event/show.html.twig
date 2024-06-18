@@ -24,12 +24,16 @@
                 <td>{{ event.date ? event.date|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>NumberParticipants</th>
+                <th>Number of places</th>
                 <td>{{ event.numberParticipants }}</td>
             </tr>
             <tr>
                 <th>IsPublic</th>
                 <td>{{ event.isPublic ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Number Of Registration</th>
+                <td>{{ numberOfRegistration }}</td>
             </tr>
         </tbody>
     </table>
@@ -37,6 +41,16 @@
     <a href="{{ path('app_event_index') }}">back to list</a>
 
     <a href="{{ path('app_event_edit', {'id': event.id}) }}">edit</a>
+
+    {% if app.user is null %}
+        Please, log in to register !
+    {% elseif app.user in event.participants %}
+        <a href="{{ path('app_event_registration', {'id': event.id}) }}">Cancellation</a>
+    {% elseif not canRegister %}
+        Event is sold out
+    {% else %}
+        <a href="{{ path('app_event_cancellation', {'id': event.id}) }}">Registration</a>
+    {% endif %}
 
     {{ include('event/_delete_form.html.twig') }}
 {% endblock %}
