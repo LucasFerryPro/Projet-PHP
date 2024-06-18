@@ -46,5 +46,9 @@
 
     </div>
 
-    <a href="{{ path('app_event_new') }}">Create new</a>
+    {% if app.user is null %}
+        Please, log in to create an event !
+    {% else %}
+        <a href="{{ path('app_event_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}
