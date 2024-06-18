@@ -17,15 +17,17 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EventController extends AbstractController
 {
     #[Route('/', name: 'app_event_index', methods: ['GET'])]
-    public function index(EventRepository $eventRepository): Response
+    public function index(EventRepository $eventRepository, Request $request): Response
     {
-        $events = $eventRepository->findAll();
-        $events = array_filter($events, function (Event $event) {
-            return $this->isGranted('view', $event);
-        });
+        $itemsPerPage = 10;
+        $page = $request->query->getInt('page', 1);
+        $events = $eventRepository->findAllPaginate($this->getUser(), $itemsPerPage);
+        $maxPages = ceil($events->count() / $itemsPerPage);
 
         return $this->render('event/index.html.twig', [
             'events' => $events,
+            'maxPages' => $maxPages,
+            'page' => $page,
         ]);
     }
 
