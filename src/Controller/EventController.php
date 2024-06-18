@@ -108,7 +108,6 @@ class EventController extends AbstractController
     public function registrationEvent(Request $request, Event $event, EntityManagerInterface $entityManager):Response
     {
         $event->addParticipant($this->getUser());
-        $entityManager->persist($event);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
@@ -118,8 +117,8 @@ class EventController extends AbstractController
     public function cancellationEvent(Request $request, Event $event, EntityManagerInterface $entityManager):Response
     {
         $event->removeParticipant($this->getUser());
-        $entityManager->persist($event);
         $entityManager->flush();
+
 
         return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
     }
