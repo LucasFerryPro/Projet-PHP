@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Entity\Event;
 use App\Entity\User;
+use App\Exception\CustomAccessDeniedException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
