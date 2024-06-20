@@ -80,7 +80,7 @@ class Event
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): static
+    public function setDate(\DateTimeInterface $date = null): static
     {
         $this->date = $date;
 

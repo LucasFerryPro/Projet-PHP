@@ -51,6 +51,18 @@ class EventRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findNextPublicEvents(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.public = true')
+            ->andWhere('e.date > :now')
+            ->setParameter('now', new \DateTime())
+            ->orderBy('e.date', 'ASC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Event[] Returns an array of Event objects
     //     */
