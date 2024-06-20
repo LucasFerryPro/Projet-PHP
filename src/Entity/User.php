@@ -25,26 +25,18 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
-
-    /**
-     * @ORM\Column(type="json")
-     */
-    private array $roles = [];
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    /**
-     * @var Collection<int, Event>
-     */
-    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'creator', orphanRemoval: true)]
+    #[ORM\Column(type: 'json', options: ['default' => '[]'])]
+    private array $roles = [];
+
+    #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Event::class, orphanRemoval: true)]
     private Collection $createdEvents;
 
-    /**
-     * @var Collection<int, Event>
-     */
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'participants')]
     private Collection $joindedEvents;
 
@@ -106,14 +98,10 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
 
         return $this;
     }
+
     public function getRoles(): array
     {
-        $roles = $this->roles;
-
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return array_unique($this->roles);
     }
 
     public function setRoles(array $roles): self
@@ -125,8 +113,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
 
     public function eraseCredentials()
     {
-        // Method required by the interface, but as plainPassword is not persisted,
-        // no need to do anything here
+        // Method required by the interface
     }
 
     public function getUserIdentifier(): string
@@ -134,9 +121,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         return (string) $this->email;
     }
 
-    /**
-     * @return Collection<int, Event>
-     */
     public function getCreatedEvents(): Collection
     {
         return $this->createdEvents;
@@ -155,7 +139,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function removeCreatedEvent(Event $createdEvent): static
     {
         if ($this->createdEvents->removeElement($createdEvent)) {
-            // set the owning side to null (unless already changed)
             if ($createdEvent->getCreator() === $this) {
                 $createdEvent->setCreator(null);
             }
@@ -164,9 +147,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Event>
-     */
     public function getJoindedEvents(): Collection
     {
         return $this->joindedEvents;

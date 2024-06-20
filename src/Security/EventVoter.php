@@ -4,8 +4,10 @@ namespace App\Security;
 
 use App\Entity\Event;
 use App\Entity\User;
+use App\Exception\CustomAccessDeniedException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class EventVoter extends Voter
 {
@@ -68,7 +70,11 @@ class EventVoter extends Voter
         if (!$user instanceof User) {
             return false;
         }else{
-            return $event->getCreator() === $user;
+            if ($event->getCreator() === $user) {
+                return true;
+            }else{
+                throw new AccessDeniedException('You are not the creator of this event');
+            }
         }
     }
 }

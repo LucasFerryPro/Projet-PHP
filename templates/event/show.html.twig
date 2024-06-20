@@ -3,6 +3,15 @@
 {% block title %}Event{% endblock %}
 
 {% block body %}
+
+    {% for message in app.flashes('user_error') %}
+        {% if message == "You are not the creator of this event" %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+
     <h1>Event</h1>
 
     <table class="table">
