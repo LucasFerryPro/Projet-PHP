@@ -28,7 +28,6 @@
                 <td>{{ event.isPublic ? 'Yes' : 'No' }}</td>
                 <td>
                     <a href="{{ path('app_event_show', {'id': event.id}) }}">show</a>
-                    <a href="{{ path('app_event_edit', {'id': event.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -39,10 +38,13 @@
         </tbody>
     </table>
     <div>
-        Page:
-        {% for page in 1..maxPages %}
-            <a href="{{ path('app_event_index', {'page': page}) }}">{{ page }}</a>
-        {% endfor %}
+        {% if events|length %}
+            Page:
+            {% for page in 1..maxPages %}
+                <a href="{{ path('app_event_index', {'page': page}) }}">{{ page }}</a>
+            {% endfor %}
+
+        {% endif %}
 
     </div>
 

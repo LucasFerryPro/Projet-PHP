@@ -1,4 +1,44 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
+<div class="mb-3">
+    {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.title, {'attr': {'class': 'form-control' ~ (form.title.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+    <div class="invalid-feedback">
+        {{ form_errors(form.title) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.description, null, {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.description, {'attr': {'class': 'form-control' ~ (form.description.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+    <div class="invalid-feedback">
+        {{ form_errors(form.description) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.date, null, {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.date, {'attr': {'class': 'form-control input-inline datetimepicker' ~ (form.date.vars.errors|length > 0 ? ' is-invalid' : ''), 'data-format': 'dd/MM/yyyy hh:mm'}}) }}
+    <div class="invalid-feedback">
+        {{ form_errors(form.date) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.numberParticipants, null, {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.numberParticipants, {'attr': {'class': 'form-control' ~ (form.numberParticipants.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+    <div class="invalid-feedback">
+        {{ form_errors(form.numberParticipants) }}
+    </div>
+</div>
+
+<div class="mb-3">
+
+    {{ form_label(form.public, null, {'label_attr': {'class': 'form-check-label'}}) }}
+    {{ form_widget(form.public, {'attr': {'class': 'form-check' ~ (form.public.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+    <div class="invalid-feedback">
+        {{ form_errors(form.public) }}
+    </div>
+</div>
+
+<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
