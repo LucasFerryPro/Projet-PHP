@@ -6,15 +6,6 @@
         <h1>Welcome {{ app.user.firstname }} {{ app.user.lastname }} !</h1>
     {% endif %}
 
-    {# Afficher le message flash s'il existe #}
-    {% for flashType, flashMessages in app.session.flashbag.all() %}
-        {% for flashMessage in flashMessages %}
-            <div class="alert alert-{{ flashType }}">
-                {{ flashMessage }}
-            </div>
-        {% endfor %}
-    {% endfor %}
-
     <p>Next public events : </p>
 
     {% for event in events %}
