@@ -2,7 +2,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Welcome to the Home Page</h1>
+    {% if app.user %}
+    <h1>Welcome {{ app.user.firstname }} {{ app.user.lastname }} !</h1>
+    {% endif %}
     <p>Next public events : </p>
 
     <table class="table">

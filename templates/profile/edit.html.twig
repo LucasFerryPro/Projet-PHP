@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center">Edit Profile</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                {{ form_start(editProfileForm) }}
+                <div class="form-group mb-3">
+                    {{ form_label(editProfileForm.lastname, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(editProfileForm.lastname, {'attr': {'class': 'form-control' ~ (form_errors(editProfileForm.lastname) ? ' is-invalid' : '') }}) }}
+                    {% if form_errors(editProfileForm.lastname) %}
+                        <div class="invalid-feedback">
+                            {{ form_errors(editProfileForm.lastname) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form_label(editProfileForm.firstname, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(editProfileForm.firstname, {'attr': {'class': 'form-control' ~ (form_errors(editProfileForm.firstname) ? ' is-invalid' : '') }}) }}
+                    {% if form_errors(editProfileForm.firstname) %}
+                        <div class="invalid-feedback">
+                            {{ form_errors(editProfileForm.firstname) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form_label(editProfileForm.email, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(editProfileForm.email, {'attr': {'class': 'form-control' ~ (form_errors(editProfileForm.email) ? ' is-invalid' : '') }}) }}
+                    {% if form_errors(editProfileForm.email) %}
+                        <div class="invalid-feedback">
+                            {{ form_errors(editProfileForm.email) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Save changes or quit profile</button>
+                {{ form_end(editProfileForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

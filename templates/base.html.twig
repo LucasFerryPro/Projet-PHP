@@ -1,44 +1,49 @@
-{# templates/base.html.twig #}
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}ZEvents{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('styles/custom.scss') }}">
 </head>
 <body>
 <nav class="navbar navbar-custom navbar-expand-lg navbar-light bg-light navbar-custom">
-    <a class="navbar-brand" href="{{ path('home') }}">Home</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    {% if app.user is not null %}
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+                <li>
+                    <a class="navbar-brand" href="{{ path('home') }}">Home</a>
+                </li>
+            {% if app.user %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_event_new') }}">Create event</a>
                 </li>
-            </ul>
-        </div>
-    {% endif %}
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_event_index') }}">Events</a>
-            </li>
-        </ul>
-    </div>
-
-    {% if app.user is not null %}
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_event_inscriptions') }}">Registration</a>
                 </li>
-            </ul>
-        </div>
-    {% endif %}
+            {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_event_index') }}">Events</a>
+                </li>
+        </ul>
+        <ul class="navbar-nav">
+            {% if app.user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('edit_profile') }}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_register') }}">Register</a>
+                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
 </nav>
 
 <div class="container">
