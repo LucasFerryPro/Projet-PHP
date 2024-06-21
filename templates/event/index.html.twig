@@ -27,12 +27,12 @@
     <div>
         {% if events|length %}
             Page:
-            {% for page in 1..maxPages %}
-                <a href="{{ path('app_event_index', {'page': page}) }}">{{ page }}</a>
-            {% endfor %}
-
+            <div class="btn-group ml-2">
+                {% for page in 1..maxPages %}
+                    <a href="{{ path('app_event_index', {'page': page}) }}" class="btn btn-outline-secondary">{{ page }}</a>
+                {% endfor %}
+            </div>
         {% endif %}
-
     </div>
 
 
