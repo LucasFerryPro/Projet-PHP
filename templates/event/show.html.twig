@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Event{% endblock %}
+{% block title %}{{ event.title }}{% endblock %}
 
 {% block body %}
 
@@ -12,54 +12,53 @@
         {% endif %}
     {% endfor %}
 
-    <h1>Event</h1>
+    <div class="row mt-4">
+        <div class="col-8">
+            <h1>
+                {{ event.title }}
+                {% if event.public %}
+                    <span class="badge bg-success">Public</span>
+                {% else %}
+                    <span class="badge bg-secondary">Private</span>
+                {% endif %}
+            </h1>
+        </div>
+        <div class="col-4 d-flex justify-content-end align-items-center">
+            {% if app.user is null %}
+                <p class="text-center mb-0">Please, log in to register !</p>
+            {% elseif app.user in event.participants %}
+                <a href="{{ path('app_event_cancellation', {'id': event.id}) }}" class="btn btn-danger">Cancellation</a>
+            {% elseif not canRegister %}
+                <p class="text-center mb-0">Event is sold out</p>
+            {% else %}
+                <a href="{{ path('app_event_registration', {'id': event.id}) }}" class="btn btn-success">Registration</a>
+            {% endif %}
+        </div>
+    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ event.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ event.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ event.description }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ event.date ? event.date|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Number of places</th>
-                <td>{{ event.numberParticipants }}</td>
-            </tr>
-            <tr>
-                <th>IsPublic</th>
-                <td>{{ event.isPublic ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Number Of Registration</th>
-                <td>{{ numberOfRegistration }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <p>{{ event.description }}</p>
+    <p>{{ event.date | date }}</p>
 
-    <a href="{{ path('app_event_index') }}">back to list</a>
+    <a href="{{ path('app_event_index') }}" class="btn btn-outline-primary">Back to list</a>
 
-    <a href="{{ path('app_event_edit', {'id': event.id}) }}">edit</a>
 
-    {% if app.user is null %}
-        Please, log in to register !
-    {% elseif app.user in event.participants %}
-        <a href="{{ path('app_event_cancellation', {'id': event.id}) }}">Cancellation</a>
-    {% elseif not canRegister %}
-        Event is sold out
-    {% else %}
-        <a href="{{ path('app_event_registration', {'id': event.id}) }}">Registration</a>
-    {% endif %}
+{#    {% if app.user is not null and app.user == event.creator %}#}
+        <a href="{{ path('app_event_edit', {'id': event.id}) }}" class="btn btn-warning">Edit</a>
+        {{ include('event/_delete_form.html.twig') }}
+{#    {% endif %}#}
 
-    {{ include('event/_delete_form.html.twig') }}
+    <h3 class="mt-4">
+        Participants
+        <span class="badge bg-info">{{ numberOfRegistration}} / {{ event.numberParticipants }}</span>
+    </h3>
+
+    <ul class="list-group list-group-flush">
+        {% for participant in event.participants %}
+            <li class="list-group-item">
+                {{ participant.firstname }} {{ participant.lastname }}
+            </li>
+        {% endfor %}
+    </ul>
+
+
 {% endblock %}
