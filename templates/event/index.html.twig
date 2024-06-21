@@ -1,42 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Event index{% endblock %}
+{% block title %}Events list{% endblock %}
 
 {% block body %}
-    <h1>Event index</h1>
+    <div class="row mt-4">
+        <h1 class="col-8">Events list</h1>
+        <div class="col-4 d-flex justify-content-end align-items-center">
+            {% if app.user is null %}
+                <p class="text-center mb-0">Please, log in to create an event !</p>
+            {% else %}
+                <a href="{{ path('app_event_new') }}" class="btn btn-success">
+                    Create new
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                    </svg>
+                </a>
+            {% endif %}
+        </div>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Date</th>
-                <th>NumberParticipants</th>
-                <th>IsPublic</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for event in events %}
-            <tr>
-                <td>{{ event.id }}</td>
-                <td>{{ event.title }}</td>
-                <td>{{ event.description }}</td>
-                <td>{{ event.date ? event.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ event.numberParticipants }}</td>
-                <td>{{ event.isPublic ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_event_show', {'id': event.id}) }}">show</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+
+    {% for event in events %}
+        {% include 'event/_event_card.html.twig' with {'event': event} %}
+    {% endfor %}
+
     <div>
         {% if events|length %}
             Page:
@@ -48,9 +35,5 @@
 
     </div>
 
-    {% if app.user is null %}
-        Please, log in to create an event !
-    {% else %}
-        <a href="{{ path('app_event_new') }}">Create new</a>
-    {% endif %}
+
 {% endblock %}

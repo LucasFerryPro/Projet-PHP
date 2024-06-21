@@ -6,47 +6,10 @@
         <h1>Welcome {{ app.user.firstname }} {{ app.user.lastname }} !</h1>
     {% endif %}
 
-    {# Afficher le message flash s'il existe #}
-    {% for flashType, flashMessages in app.session.flashbag.all() %}
-        {% for flashMessage in flashMessages %}
-            <div class="alert alert-{{ flashType }}">
-                {{ flashMessage }}
-            </div>
-        {% endfor %}
-    {% endfor %}
-
     <p>Next public events : </p>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>NumberParticipants</th>
-            <th>IsPublic</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for event in events %}
-            <tr>
-                <td>{{ event.id }}</td>
-                <td>{{ event.title }}</td>
-                <td>{{ event.description }}</td>
-                <td>{{ event.date ? event.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ event.numberParticipants }}</td>
-                <td>{{ event.isPublic ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_event_show', {'id': event.id}) }}">show</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% for event in events %}
+        {% include 'event/_event_card.html.twig' with {'event': event} %}
+    {% endfor %}
+
 {% endblock %}

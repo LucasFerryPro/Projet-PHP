@@ -50,6 +50,15 @@
     </div>
 </nav>
 
+{# Afficher le message flash s'il existe #}
+{% for flashType, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+        <div class="alert alert-{{ flashType }}">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
 <div class="container">
     {% block body %}{% endblock %}
 </div>
