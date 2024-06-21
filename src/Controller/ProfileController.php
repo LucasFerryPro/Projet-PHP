@@ -26,10 +26,10 @@ class ProfileController extends AbstractController
 
         // Vérifie si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
-            // Enregistre les modifications dans la base de données
+            // Enregistre les modifications dans la base change_password.html.twig données
             $entityManager->flush();
 
-            // Redirige vers une page de confirmation ou une autre action
+            // Redirige vers une page change_password.html.twig confirmation ou une autre action
             return $this->redirectToRoute('home');
         }
 

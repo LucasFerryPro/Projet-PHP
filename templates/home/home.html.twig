@@ -1,10 +1,20 @@
-{# templates/home/home.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
     {% if app.user %}
-    <h1>Welcome {{ app.user.firstname }} {{ app.user.lastname }} !</h1>
+        <h1>Welcome {{ app.user.firstname }} {{ app.user.lastname }} !</h1>
     {% endif %}
+
+    {# Afficher le message flash s'il existe #}
+    {% for flashType, flashMessages in app.session.flashbag.all() %}
+        {% for flashMessage in flashMessages %}
+            <div class="alert alert-{{ flashType }}">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     <p>Next public events : </p>
 
     <table class="table">
