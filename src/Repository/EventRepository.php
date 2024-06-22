@@ -20,26 +20,42 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    public function findAllPaginate(?User $user, $itemsParPage): Paginator
+    /**
+     * @param User $user
+     * @param array $filters
+     * @param int $itemsPerPage
+     * @param int $page
+     * @return Event[]
+     */
+    public function findAllFiltered($user, array $filters, int $itemsPerPage, int $page = 1): Paginator
     {
+        $qb = $this->createQueryBuilder('e');
 
-        if(!$user instanceof User) {
-            return new Paginator($this
-                ->createQueryBuilder('e')
-                ->where('e.public = true')
-                ->getQuery()
-                ->setFirstResult(0)
-                ->setMaxResults($itemsParPage)
-            );
+        if (isset($filters['dateFrom'])) {
+            $qb->andWhere('e.date >= :dateFrom')
+                ->setParameter('dateFrom', $filters['dateFrom']);
         }
-        return new Paginator($this
-            ->createQueryBuilder('r')
+
+        if(isset($filters['title'])) {
+            $qb->andWhere('e.title LIKE :title')
+                ->setParameter('title', '%'.$filters['title'].'%');
+        }
+
+        if($user instanceof User) {
+            if (isset($filters['public'])) {
+                $qb->andWhere('e.public = :public')
+                    ->setParameter('public', $filters['public']);
+            }
+        }else{
+            $qb->andWhere('e.public = true');
+        }
+
+        return new Paginator($qb
             ->getQuery()
             ->setFirstResult(0)
-            ->setMaxResults($itemsParPage)
+            ->setMaxResults($itemsPerPage)
         );
     }
-
 
     public function findEventsByUserParticipating(User $user): array
     {
