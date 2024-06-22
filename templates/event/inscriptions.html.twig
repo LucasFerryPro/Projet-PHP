@@ -4,9 +4,14 @@
 
 {% block body %}
     <h1 class="mt-4">Registrations</h1>
+    {% if events | length %}
 
-    {% for event in events %}
-        {% include 'event/_event_card.html.twig' with {'event': event} %}
-    {% endfor %}
+        {% for event in events %}
+            {% include 'event/_event_card.html.twig' with {'event': event} %}
+        {% endfor %}
+    {% else %}
+        <p class="text-start mt-4">No registrations yet.</p>
+        <a href="{{ path('app_event_index') }}" class="btn btn-primary">See events</a>
+    {% endif %}
 
 {% endblock %}
