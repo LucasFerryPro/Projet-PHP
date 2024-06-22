@@ -32,7 +32,7 @@ class EventController extends AbstractController
         $form->handleRequest($request);
 
         $filters = $form->isSubmitted() && $form->isValid() ? $form->getData() : [];
-        $itemsPerPage = 10;
+        $itemsPerPage = 5;
         $page = $request->query->getInt('page', 1);
 
         $events = $eventRepository->findAllFiltered($this->getUser(), $filters, $itemsPerPage, $page);
