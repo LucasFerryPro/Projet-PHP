@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Form\EventFilterType;
 use App\Form\EventType;
 use App\Repository\EventRepository;
 use App\Service\NotificationsService;
@@ -24,18 +25,24 @@ class EventController extends AbstractController
         $this->notificationService = $notificationService;
     }
 
-    #[Route('/', name: 'app_event_index', methods: ['GET'])]
+    #[Route('/', name: 'app_event_index', methods: ['GET', 'POST'])]
     public function index(EventRepository $eventRepository, Request $request): Response
     {
-        $itemsPerPage = 10;
+        $form = $this->createForm(EventFilterType::class);
+        $form->handleRequest($request);
+
+        $filters = $form->isSubmitted() && $form->isValid() ? $form->getData() : [];
+        $itemsPerPage = 5;
         $page = $request->query->getInt('page', 1);
-        $events = $eventRepository->findAllPaginate($this->getUser(), $itemsPerPage);
-        $maxPages = ceil($events->count() / $itemsPerPage);
+
+        $events = $eventRepository->findAllFiltered($this->getUser(), $filters, $itemsPerPage, $page);
+        $maxPages = ceil(count($events) / $itemsPerPage);
 
         return $this->render('event/index.html.twig', [
             'events' => $events,
             'maxPages' => $maxPages,
             'page' => $page,
+            'form' => $form->createView(),
         ]);
     }
 

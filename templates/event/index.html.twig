@@ -19,17 +19,56 @@
         </div>
     </div>
 
+    <div class="row mt-4">
+        <div class="col-12">
+            {{ form_start(form, {'attr': {'class': 'row g-3 needs-validation', 'novalidate': ''}}) }}
 
-    {% for event in events %}
-        {% include 'event/_event_card.html.twig' with {'event': event} %}
-    {% endfor %}
+            <div class="col-md-4">
+                {{ form_label(form.dateFrom, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.dateFrom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.dateFrom) }}
+            </div>
+
+            <div class="col-md-4">
+                {{ form_label(form.public, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.public, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.public) }}
+            </div>
+
+            <div class="col-md-4">
+                {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.title) }}
+            </div>
+
+            <div class="col-12 my-3 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    {% if events|length %}
+        {% for event in events %}
+            {% include 'event/_event_card.html.twig' with {'event': event} %}
+        {% endfor %}
+    {% else %}
+        <p class="text-start mt-4">No events.</p>
+    {% endif %}
+
 
     <div>
         {% if events|length %}
             Page:
             <div class="btn-group ml-2">
+                {% set currentPage = page %}
                 {% for page in 1..maxPages %}
-                    <a href="{{ path('app_event_index', {'page': page}) }}" class="btn btn-outline-secondary">{{ page }}</a>
+                    {% if page == currentPage %}
+                        <a href="{{ path('app_event_index', {'page': page}) }}" class="btn btn-secondary">{{ page }}</a>
+                    {% else %}
+                        <a href="{{ path('app_event_index', {'page': page}) }}" class="btn btn-outline-secondary">{{ page }}</a>
+                    {% endif %}
                 {% endfor %}
             </div>
         {% endif %}
