@@ -27,7 +27,7 @@ class EventController extends AbstractController
     #[Route('/', name: 'app_event_index', methods: ['GET'])]
     public function index(EventRepository $eventRepository, Request $request): Response
     {
-        $itemsPerPage = 10;
+        $itemsPerPage = 5;
         $page = $request->query->getInt('page', 1);
         $events = $eventRepository->findAllPaginate($this->getUser(), $itemsPerPage);
         $maxPages = ceil($events->count() / $itemsPerPage);
