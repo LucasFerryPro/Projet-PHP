@@ -23,25 +23,6 @@ class EventFilterType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'From'
             ])
-//            ->add('dateTo', DateType::class, [
-//                'required' => false,
-//                'widget' => 'single_text',
-//                'label' => 'To'
-//            ])
-//            ->add('category', ChoiceType::class, [
-//                'required' => false,
-//                'choices' => [
-//                    'Conference' => 'conference',
-//                    'Workshop' => 'workshop',
-//                    'Meetup' => 'meetup',
-//                ],
-//                'placeholder' => 'Choose a category',
-//                'label' => 'Category'
-//            ])
-//            ->add('numberParticipants', IntegerType::class, [
-//                'required' => false,
-//                'label' => 'Number of Participants'
-//            ])
             ->add('title', null, [
                 'required' => false,
                 'label' => 'Title'
